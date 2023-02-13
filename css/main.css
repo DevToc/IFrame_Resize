@@ -1,0 +1,101 @@
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #212529;
+  text-align: left;
+}
+
+.loader {
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  width: 100%;
+  height: 100%;
+  background: url(../img/loader.svg) 50% 50% no-repeat #fff;
+  z-index: 9999;
+  background-size: 4rem;
+
+}
+
+main {
+  /* background: url(../img/1.png) no-repeat; */
+  background-size: cover;
+  background-position: center center;
+  background-attachment: fixed;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow-x: hidden;
+}
+
+iframe {
+  position: absolute;
+}
+
+/* .img-back {
+  width: 145vw;
+}
+
+iframe {
+  width: 57vw;
+  height: 31vw;
+  top: 24vw;
+  left: 22vw;
+} */
+
+.img-back {
+  width: 145vw;
+  height: 100vh;
+}
+
+iframe {
+  width: 57vw;
+  height: 38vh;
+  top: 29vh;
+  left: 22vw;
+}
+
+@media (min-width: 1010px) {
+  .img-back {
+    width: 145vw;
+    height: auto;
+  }
+
+  iframe {
+    width: 57vw;
+    height: 31vw;
+    top: 24vw;
+    left: 22vw;
+  }
+}
+
+/* @media (min-width: 1010px) {
+  .img-back {
+    width: 1466px;
+    height: auto;
+  }
+
+  iframe {
+    width: 570px;
+    height: 310px;
+    top: 240px;
+    left: 220px;
+  }
+} */
+
+@media (min-width: 1466px) {
+  .img-back {
+    width: 100vw;
+    height: auto;
+  }
+
+  iframe {
+    width: 39vw;
+    height: 22vw;
+    top: 16vw;
+    left: 15vw;
+  }
+}

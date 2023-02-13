@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+
+	<title>
+		Looking At How Browser Zoom Affects CSS Media Queries And Pixel-Density
+	</title>
+
+	<style type="text/css">
+
+		
+
+/* 2. scale and layout setting at 125% */
+@media (resolution: 1.25dppx) {
+  .scale::after {
+    content: '125%';
+  }
+  .nonscaling {
+    /* offset the scaling */
+    /* factor = 100/125 percent */
+    transform: scale(0.80);
+  }
+}
+
+
+/* 3. scale and layout setting at 150% */
+@media (resolution: 1.5dppx) {
+  .scale::after {
+    content: '150%';
+  }
+  .nonscaling {
+    transform: scale(0.6666);
+  }
+}
+
+
+/* 4. scale and layout setting at 175% */
+@media (resolution: 1.75dppx) {
+  .scale::after {
+    content: '175%';
+  }
+  .nonscaling {
+    transform: scale(0.5714);
+  }
+}
+
+
+	</style>
+</head>
+<body>
+
+	<div class="nonscaling">I will not scale! Period.</div>
+	<div class="scale">You've scaled: </div>
+
+	<script type="text/javascript">
+
+		// Listen for "resize" events.
+		window.addEventListener( "resize", handleResizeEvent );
+		// Listen for Media Query "change" events.
+		setupMediaQueryListeners();
+
+		// --------------------------------------------------------------------------- //
+		// --------------------------------------------------------------------------- //
+
+		// I handle window resize events.
+		function handleResizeEvent( event ) {
+
+			console.group( "%cResize Event", "color: red" );
+			console.log( "Window width:", window.innerWidth );
+			console.log( "Pixel density:", window.devicePixelRatio );
+			// NOTE: Safari seems to report the devicePixelRatio as "1" (on my laptop)
+			// regardless of what the Zoom is doing. Chrome and Firefox, on the other
+			// hand, seem to show an increased pixel density as the Zoom increases.
+			console.groupEnd();
+
+		}
+
+		// I handle media-query change events.
+		function handleMediaQueryChangeEvent( event ) {
+
+			console.group( "%cMediaQueryList Event", "color: purple" );
+			console.log( "Condition:", event.media );
+			console.log( "Matches:", event.matches );
+			console.groupEnd();
+
+		}
+
+		// --------------------------------------------------------------------------- //
+		// --------------------------------------------------------------------------- //
+
+		// I look through the document StyleSheet and setup watchers for any Media Rule
+		// in the CSS rule list.
+		function setupMediaQueryListeners() {
+
+			var rules = document.styleSheets[ 0 ].cssRules;
+			var length = rules.length;
+
+			for ( var i = 0 ; i < length ; i++ ) {
+
+				var rule = rules[ i ];
+				var conditionText = ( rule.media && rule.media[ 0 ] );
+
+				// If this isn't a CSS Media Rule, skip it.
+				if ( ! conditionText ) {
+
+					continue;
+
+				}
+
+				// Create a watcher for the given CSS Media Rule condition. The condition
+				// text will be something like, "screen and (min-width: 900px)". The
+				// resultant object allows us to listen for "change" events on that
+				// condition relative to the state of the document.
+				var mediaQueryList = window.matchMedia( conditionText );
+
+				// CAUTION: You can also use .addEventListener(change); however, that
+				// method does not appear to work for Safari. Classic Safari!
+				mediaQueryList.addListener( handleMediaQueryChangeEvent );
+
+				// In addition to listening for changes on the media query, we can also
+				// check to see if the initial state of the media query matches the
+				// current document state.
+				console.group( "Setting up media listener" );
+				console.log( "Condition:", conditionText );
+				console.log( "Initial match:", mediaQueryList.matches );
+				console.groupEnd();
+
+			}			
+
+		}
+
+	</script>
+
+</body>
+</html>
+
+
+
+@media only screen and (min-device-width: 320px) and (max-device-width: 480px) {
+  iframe {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* (320x480) Smartphone, Portrait */
+@media only screen and (device-width: 320px) and (orientation: portrait) {
+  iframe {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* (320x480) Smartphone, Landscape */
+@media only screen and (device-width: 480px) and (orientation: landscape) {
+  iframe {
+    width: 100%;
+    margin: 0;
+  }
+}
+
+/* (480x800) Android */
+@media only screen and (min-device-width: 480px) and (max-device-width: 800px) {
+  iframe {
+    width: 300px;
+    margin: 118px 0 0 110px;
+    height: 180px;
+}
+}
+
+/* (640x960) iPhone 4 & 4S */
+@media only screen and (min-device-width: 640px) and (max-device-width: 960px) {
+  iframe {
+    width: 260px;
+    margin: 96px 0 0 78px;
+    height: 150px;
+  }
+}
+
+/* (720x1280) Galaxy Nexus, WXGA */
+@media only screen and (min-device-width: 720px) and (max-device-width: 1280px) {
+  /* insert styles here */
+}
+
+/* (720x1280) Galaxy Nexus, Landscape */
+@media only screen and (min-device-width: 720px) and (max-device-width: 1280px) and (orientation: landscape) {
+  iframe {
+    width: 410px;
+    margin: 163px 0 0 150px;
+    height: 230px;
+  }
+}
+
+/* (1024x768) iPad 1 & 2, XGA */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) {
+  /* insert styles here */
+}
+
+/* (768x1024) iPad 1 & 2, Portrait */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: portrait) {
+  /* insert styles here */
+}
+
+/* (1024x768) iPad 1 & 2, Landscape */
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
+  /* insert styles here */
+}
+
+/* (2048x1536) iPad 3 */
+@media only screen and (min-device-width: 1536px) and (max-device-width: 2048px) {
+  /* insert styles here */
+}
+
+/* (1280x720) Galaxy Note 2, WXGA */
+@media only screen and (min-device-width: 720px) and (max-device-width: 1280px) {
+  /* insert styles here */
+}
+
+/* (1366x768) WXGA Display */
+@media  screen and (min-width: 1366px) {
+  iframe {
+    width: 547px;
+    height: 310px;
+    margin: 73px 0 0 200px;
+  }
+}
+
+
+/* (1440x900) WXGA+ Display */
+@media  screen and (min-width: 1440px) {
+  iframe {
+    width: 585px;
+    margin: 230px 0 0 210px;
+    height: 330px;
+}
+}
+
+/* (1680x1050) WSXGA+ Display */
+@media  screen and (min-width: 1680px) {
+  iframe {
+    width: 670px;
+    margin: 269px 0 0 249px;
+    height: 376px;
+  }
+}
+
+/* (1920x1080) Full HD Display */
+@media  screen and (min-width: 1920px) {
+  iframe {
+    width: 800px;
+    height: 700px;
+  }
+}
+
+/* (1600x900) HD+ Display */
+@media  screen and (min-width: 1600px) {
+  iframe {
+    width: 645px;
+    margin: 256px 0 0 231px;
+    height: 376px;
+  }
+}
+
+
+
+
+@media only screen and  (min-width: 1536px){
+	iframe {
+    width: 615px;
+    margin: 95px 0 0 226px;
+    height: 345px;
+  }
+}
+
+
+
+
+@media only screen and  (min-width: 2560px)  {
+	iframe {
+    width: 1018px;
+    height: 574px;
+    margin: 409px 0 0 379px;
+  }
+}
+
+@media only screen and  (min-width: 3480px)  {
+	iframe {
+    width: 1526px;
+    height: 857px;
+    margin: 615px 0 0 570px;
+  }
+}
+
+@media only screen and  (min-width: 4096px)  {
+	iframe {
+    width: 1626px;
+    height: 958px;
+    margin: 615px 0 0 570px;
+  }
+}
+
+@media only screen and  (min-width: 5120px)  {
+	iframe {
+    width: 2037px;
+    height: 1147px;
+    margin: 818px 0 0 760px;
+  }
+}
